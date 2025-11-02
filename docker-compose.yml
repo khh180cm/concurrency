@@ -1,0 +1,18 @@
+services:
+  api-server:
+    build:
+      context: ./server
+    ports:
+      - "8000:8000"
+    container_name: concurrency-api-server
+
+  client:
+    build:
+      context: ./client
+    stdin_open: true
+    tty: true
+    depends_on:
+      - api-server
+    environment:
+      - API_BASE_URL=http://api-server:8000
+    container_name: concurrency-client
